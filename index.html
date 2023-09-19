@@ -2,7 +2,7 @@
 <html lang="zh">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=2.5" />
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
     <title>Hello Everyone</title>
   </head>
@@ -37,13 +37,18 @@
         justify-content: center;
         flex-wrap: wrap;
         gap: 0.1ch;
-        font-size: 50px;
+        font-size: 4rem;
         /* font-family: 'Fira Code', monospace; */
         font-family: monospace;
         font-weight: 700;
         color: var(--white);
         word-break: keep-all;
         white-space: nowrap;
+      }
+      @media screen and (max-width: 85ch) {
+        .type {
+          font-size: 1rem;
+        }
       }
       .type ::selection {
         color: var(--black);
