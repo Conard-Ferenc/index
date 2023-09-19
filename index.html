@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hello Everyone</title>
+  </head>
+  <body>
+    <div class="type">
+      <h1 style="--speed: 0.25s">Hello World!</h1>
+      <h1 style="--length: 3; --delay: 5s">Hi!</h1>
+      <h1 style="--length: 6; --delay: 7s">Conard</h1>
+    </div>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      :root {
+        --black: #222;
+        --white: #ddd;
+      }
+      body {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--black);
+      }
+
+      .type {
+        max-width: 24ch;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.1ch;
+        font-size: 50px;
+        /* font-family: 'Fira Code', monospace; */
+        font-family: monospace;
+        font-weight: 700;
+        color: var(--white);
+        word-break: keep-all;
+        white-space: nowrap;
+      }
+      .type ::selection {
+        color: var(--black);
+        background-color: var(--white);
+      }
+      .type > * {
+        width: 0;
+        overflow: hidden;
+        animation: type calc(var(--speed) * var(--length)) steps(var(--length))
+          forwards var(--delay);
+        --speed: 0.4s;
+        --length: 12;
+        --delay: 2s;
+      }
+      @keyframes type {
+        to {
+          width: calc(1ch * var(--length));
+        }
+      }
+      .type::after {
+        margin-right: -0.6ch;
+        width: 0.5ch;
+        display: inline-block;
+        content: '';
+        background-color: var(--white);
+        opacity: 0.7;
+        animation: blink 1.6s infinite;
+      }
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
+    </style>
+  </body>
+</html>
