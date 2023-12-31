@@ -1,82 +1,200 @@
 <!DOCTYPE html>
 <html lang="zh">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-    <title>Hello Everyone</title>
-  </head>
-  <body>
-    <div class="type">
-      <h1 style="--speed: 0.25s">Hello World!</h1>
-      <h1 style="--length: 3; --delay: 5s">Hi!</h1>
-      <h1 style="--length: 6; --delay: 7s">Conard</h1>
-    </div>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+  <title>Hello Everyone</title>
+</head>
+
+<body>
+  <div class="type none">
+    <h1 style="--speed: 0.25s; --length: 11">Hello 2024!</h1>
+    <h1 style="--length: 3; --delay: 5s">Hi,</h1>
+    <h1 style="--length: 7; --delay: 7s">Conard!</h1>
+  </div>
+
+  <div class="box" data-count="10">
+  </div>
+
+  <div class="img none"></div>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --black: #222;
+      --white: #ddd;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: var(--black);
+    }
+
+    .type {
+      max-width: 24ch;
+      display: flex;
+      justify-content: start;
+      flex-wrap: wrap;
+      gap: 0.1ch;
+      font-size: clamp(0.8rem, 5vw, 4rem);
+      /* font-family: 'Fira Code', monospace; */
+      font-family: monospace;
+      font-weight: 700;
+      color: var(--white);
+      word-break: keep-all;
+      white-space: nowrap;
+    }
+
+    .type ::selection {
+      color: var(--black);
+      background-color: var(--white);
+    }
+
+    .type>* {
+      flex-basis: 0;
+      overflow: hidden;
+      animation: type calc(var(--speed) * var(--length)) steps(var(--length)) forwards var(--delay);
+      --speed: 0.4s;
+      --length: 12;
+      --delay: 2s;
+    }
+
+    @keyframes type {
+      to {
+        flex-basis: calc(1ch * var(--length));
       }
-      :root {
-        --black: #222;
-        --white: #ddd;
+    }
+
+    .type::after {
+      margin-right: -0.6ch;
+      width: 0.5ch;
+      display: inline-block;
+      content: '';
+      background-color: var(--white);
+      opacity: 0.7;
+      animation: blink 1.6s infinite;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
       }
-      body {
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        background-color: var(--black);
+    }
+
+    .box {
+      max-width: 80%;
+      height: 2em;
+
+      display: flex;
+      align-items: center;
+      gap: 1.5em;
+    }
+
+    .box .block {
+      width: .5em;
+      height: 100%;
+      /* transform-origin: right bottom; */
+      animation: loading 6s linear calc(var(--i) * .1s) infinite;
+    }
+
+    @keyframes loading {
+
+      0%,
+      20%,
+      40%,
+      80% {
+        background-color: #0f0;
+        box-shadow:
+          0 0 5px #0f0,
+          0 0 15px #0f0,
+          0 0 30px #0f0,
+          0 0 50px #0f0;
+        rotate: 0deg;
       }
 
-      .type {
-        max-width: 24ch;
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 0.1ch;
-        font-size: clamp(0.8rem, 5vw, 4rem);
-        /* font-family: 'Fira Code', monospace; */
-        font-family: monospace;
-        font-weight: 700;
-        color: var(--white);
-        word-break: keep-all;
-        white-space: nowrap;
+      40%,
+      80% {
+        rotate: 90deg;
+        filter: hue-rotate(0deg);
       }
-      .type ::selection {
-        color: var(--black);
-        background-color: var(--white);
+
+      80% {
+        filter: hue-rotate(360deg);
       }
-      .type > * {
-        flex-basis: 0;
-        overflow: hidden;
-        animation: type calc(var(--speed) * var(--length)) steps(var(--length))
-          forwards var(--delay);
-        --speed: 0.4s;
-        --length: 12;
-        --delay: 2s;
+
+      90%,
+      100% {
+        background-color: #000;
+        box-shadow: none;
+        rotate: 0deg;
       }
-      @keyframes type {
-        to {
-          flex-basis: calc(1ch * var(--length));
-        }
+
+      90.1%,
+      100% {
+        rotate: unset;
       }
-      .type::after {
-        margin-right: -0.6ch;
-        width: 0.5ch;
-        display: inline-block;
-        content: '';
-        background-color: var(--white);
-        opacity: 0.7;
-        animation: blink 1.6s infinite;
-      }
-      @keyframes blink {
-        50% {
-          opacity: 0;
-        }
-      }
-    </style>
-  </body>
+    }
+
+    .img {
+      width: 286px;
+      height: 205px;
+      background-image: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+      mask-image: url(./img/2024.svg);
+      mask-size: contain;
+    }
+
+    .hidden {
+      transition: all .5s;
+      opacity: 0;
+    }
+
+    .none {
+      display: none;
+    }
+  </style>
+
+  <script>
+    const box = document.querySelector('[data-count]');
+    const count = box.getAttribute('data-count');
+    box.style.setProperty('width', `${count * 2}em`)
+
+    for (let i = 0; i < count; i++) {
+      const block = document.createElement('div');
+      block.classList.add('block');
+      block.style.setProperty('--i', i + 1);
+      box.appendChild(block);
+    }
+
+    setTimeout(() => {
+      box.classList.add('hidden');
+      setTimeout(() => {
+        box.classList.add('none');
+        const type = document.querySelector('.type');
+        type.classList.remove('none');
+
+        setTimeout(() => {
+          type.classList.add('hidden');
+
+          setTimeout(() => {
+            type.classList.add('none');
+            const img = document.querySelector('.img');
+            img.classList.remove('none');
+          }, 1e3);
+        }, 10e3)
+      }, 1e3);
+    }, 10e3)
+  </script>
+</body>
+
 </html>
