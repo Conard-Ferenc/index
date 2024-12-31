@@ -10,13 +10,12 @@
 
 <body>
   <div class="type none">
-    <h1 style="--speed: 0.25s; --length: 11">Hello 2024!</h1>
-    <h1 style="--length: 3; --delay: 5s">Hi,</h1>
-    <h1 style="--length: 7; --delay: 7s">Conard!</h1>
+    <h1 style="--length: 3">Hi,</h1>
+    <h1 style="--speed: 0.2s; --length: 8; --delay: 4s; --count: 2; --direction: alternate">Conard!</h1>
+    <h1 style="--length: 5; --delay: 8s">2025!</h1>
   </div>
 
-  <div class="box" data-count="11">
-  </div>
+  <div class="box" data-count="11"></div>
 
   <div class="img none"></div>
 
@@ -44,7 +43,7 @@
     .type {
       max-width: 24ch;
       display: flex;
-      justify-content: start;
+      justify-content: center;
       flex-wrap: wrap;
       gap: 0.1ch;
       font-size: clamp(0.8rem, 5vw, 4rem);
@@ -61,13 +60,21 @@
       background-color: var(--white);
     }
 
-    .type>* {
+    .type * {
       flex-basis: 0;
       overflow: hidden;
-      animation: type calc(var(--speed) * var(--length)) steps(var(--length)) forwards var(--delay);
+      animation-name: type;
+      animation-duration: calc(var(--speed) * var(--length));
+      animation-timing-function: steps(var(--length), end);
+      animation-delay: var(--delay);
+      animation-iteration-count: var(--count);
+      animation-direction: var(--direction);
+      animation-fill-mode: forwards;
       --speed: 0.4s;
       --length: 12;
-      --delay: 2s;
+      --delay: 0s;
+      --count: 1;
+      --direction: normal;
     }
 
     @keyframes type {
@@ -102,10 +109,10 @@
     }
 
     .box .block {
-      width: .5em;
+      width: 0.5em;
       height: 100%;
       /* transform-origin: right bottom; */
-      animation: loading 6s linear calc(var(--i) * .1s) infinite;
+      animation: loading 6s linear calc(var(--i) * 0.1s) 1 forwards;
     }
 
     @keyframes loading {
@@ -115,11 +122,7 @@
       40%,
       80% {
         background-color: #0f0;
-        box-shadow:
-          0 0 5px #0f0,
-          0 0 15px #0f0,
-          0 0 30px #0f0,
-          0 0 50px #0f0;
+        box-shadow: 0 0 5px #0f0, 0 0 15px #0f0, 0 0 30px #0f0, 0 0 50px #0f0;
         rotate: 0deg;
       }
 
@@ -147,27 +150,29 @@
     }
 
     .img {
-      width: 286px;
-      height: 205px;
+      width: 260px;
+      height: 90px;
       background-image: linear-gradient(45deg, #ff0000 0%, #f5651d 50%, #fbc143 100%);
       background-repeat: no-repeat;
-      background-size: 572px 100%;
+      background-size: 520px 100%;
       background-position: 0 center;
-      mask-image: url(./img/2024.svg);
-      -webkit-mask-image: url(./img/2024.svg);
-      mask-size: contain;
+      -webkit-mask-image: url(./img/2025.svg);
+      mask-image: url(./img/2025.svg);
       -webkit-mask-size: contain;
+      mask-size: contain;
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
       animation: flow 1s linear infinite alternate;
     }
 
     @keyframes flow {
       to {
-        background-position: calc(-286px) center;
+        background-position: calc(-260px) center;
       }
     }
 
-    .hidden {
-      transition: all .5s;
+    .hide {
+      transition: all 0.5s;
       opacity: 0;
     }
 
@@ -179,7 +184,7 @@
   <script>
     const box = document.querySelector('[data-count]');
     const count = box.getAttribute('data-count');
-    box.style.setProperty('width', `${count * 2}em`)
+    box.style.setProperty('width', `${count * 2}em`);
 
     for (let i = 0; i < count; i++) {
       const block = document.createElement('div');
@@ -187,25 +192,28 @@
       block.style.setProperty('--i', i + 1);
       box.appendChild(block);
     }
-
-    setTimeout(() => {
-      box.classList.add('hidden');
-      setTimeout(() => {
-        box.classList.add('none');
-        const type = document.querySelector('.type');
-        type.classList.remove('none');
-
-        setTimeout(() => {
-          type.classList.add('hidden');
-
-          setTimeout(() => {
-            type.classList.add('none');
-            const img = document.querySelector('.img');
-            img.classList.remove('none');
-          }, 1e3);
-        }, 10e3)
-      }, 1e3);
-    }, 8e3)
+    /**
+     *@param {HTMLElement} hideEle
+     *@param {HTMLElement} showEle
+     **/
+    const hideFn = (hideEle, showEle) => {
+      hideEle.removeEventListener('transitionend', hideFn);
+      hideEle.classList.add('hide');
+      hideEle.addEventListener(
+        'transitionend',
+        () => {
+          hideEle.classList.add('none');
+          showEle.classList.remove('none');
+        },
+        { once: true }
+      );
+    };
+    const type = document.querySelector('.type');
+    box.addEventListener('animationend', () => hideFn(box, type), { once: true });
+    type.addEventListener('animationend', (e) => {
+      if (Math.round(e.elapsedTime) !== 2) return;
+      hideFn(type, document.querySelector('.img'));
+    });
   </script>
 </body>
 
