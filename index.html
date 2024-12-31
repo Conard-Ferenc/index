@@ -150,23 +150,25 @@
     }
 
     .img {
-      width: 260px;
-      height: 90px;
+      width: 520px;
+      max-width: 80%;
+      aspect-ratio: 104 / 37;
       background-image: linear-gradient(45deg, #ff0000 0%, #f5651d 50%, #fbc143 100%);
       background-repeat: no-repeat;
-      background-size: 520px 100%;
+      background-size: 200% 100%;
       background-position: 0 center;
       -webkit-mask-image: url(./img/2025.svg);
       mask-image: url(./img/2025.svg);
       -webkit-mask-size: contain;
       mask-size: contain;
+      -webkit-mask-repeat: no-repeat;
       mask-repeat: no-repeat;
       animation: flow 1s linear infinite alternate;
     }
 
     @keyframes flow {
       to {
-        background-position: calc(-260px) center;
+        background-position: 100% center;
       }
     }
 
